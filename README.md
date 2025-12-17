@@ -45,6 +45,10 @@ Each folder contains its own `README.md` with detailed setup and running instruc
 | :---: | :---: |
 | <img src="./screenshots/06_contacts_list.png" width="300" /> | <img src="./screenshots/09_task_creation.png" width="300" /> |
 
+| Task List |
+| :---: |
+| <img src="./screenshots/10_task_list.png" width="300" /> |
+
 ---
 
 ## 🏃‍♂️ Quick Start
