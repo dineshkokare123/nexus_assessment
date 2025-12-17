@@ -1,32 +1,46 @@
-# Naxum VP of Mobile App Assessment
+# Naxum Assessment Submission - Dinesh Kokare
 
-This repository contains the solution for the Technical Skills Assessment.
+## 📦 Deliverables
 
-## Structure
-*   **`mobile-app/`**: React Native (Expo) application.
-*   **`backend/`**: Node.js (Express) API.
-*   **`ARCHITECTURE.md`**: Detailed architectural decisions and diagrams.
+This repository contains the complete source code and documentation for the Naxum Sales Team Management App assessment.
 
-## Quick Start
-1.  Navigate to `backend` and run `npm install && npm run dev`.
-2.  Navigate to `mobile-app` and run `npm install && npx expo start`.
-3.  Ensure you have a PostgreSQL database running (see backend README).
+### 1. Source Code
+*   📱 **[Mobile App](./dineshkokare-mobile-app)**: React Native (Expo) application.
+*   🚀 **[Backend API](./dineshkokare-backend)**: Node.js/Express API with PostgreSQL.
 
-## Deliverables
-*   Source Code: Included in this folder.
-*   Architecture Doc: `ARCHITECTURE.md`.
-*   Video Demo: (Link to be added by candidate).
+Each folder contains its own `README.md` with detailed setup and running instructions.
 
-## Testing
-Run `npm test` in the `backend` directory to see unit tests for business logic.
+### 2. Architecture Document
+*   📄 **[System Architecture & Technical Decisions](./ARCHITECTURE.md)**
+    *   System Diagram
+    *   State Management Rationale (Zustand)
+    *   Scalability Strategy (1000+ members)
+    *   Team Processes
 
-## App Screenshots
+### 4. Video Demo
+*   🎥 **[Watch the 7-Minute Walkthrough](Placeholder: PASTE_YOUR_VIDEO_LINK_HERE)**
 
-| Login | Register | Dashboard |
-|:---:|:---:|:---:|
-| <img src="screenshots/login.png" width="200" /> | <img src="screenshots/register.png" width="200" /> | <img src="screenshots/dashboard.png" width="200" /> |
+---
 
-| Contacts | New Task |
-|:---:|:---:|
-| <img src="screenshots/contacts.png" width="200" /> | <img src="screenshots/create_task.png" width="200" /> |
+## ✅ Assessment Checklist
 
+- [x] **Source Code**: Separate folders for Mobile and Backend.
+- [x] **Documentation**: Setup instructions, Env vars (`.env.example`), and Architecture doc.
+- [x] **Quality**: Clean Git history, meaningful commits, and unit tests (6+ test files).
+- [ ] **Video**: App walkthrough and code explanation.
+
+## 🏃‍♂️ Quick Start
+
+1.  **Backend**:
+    ```bash
+    cd dineshkokare-backend
+    npm install
+    npm run dev
+    ```
+
+2.  **Mobile App**:
+    ```bash
+    cd dineshkokare-mobile-app
+    npm install
+    npx expo start
+    ```
