@@ -37,6 +37,10 @@ Each folder contains its own `README.md` with detailed setup and running instruc
 | :---: | :---: |
 | <img src="./screenshots/04_team_screen.png" width="300" /> | <img src="./screenshots/05_tasks_screen.png" width="300" /> |
 
+| Invite Flow | Task Creation |
+| :---: | :---: |
+| <img src="./screenshots/06_contacts_list.png" width="300" /> | <img src="./screenshots/09_task_creation.png" width="300" /> |
+
 ---
 
 ## 🏃‍♂️ Quick Start
