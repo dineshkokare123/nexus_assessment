@@ -28,6 +28,16 @@ Each folder contains its own `README.md` with detailed setup and running instruc
 - [x] **Documentation**: Setup instructions, Env vars (`.env.example`), and Architecture doc.
 - [x] **Quality**: Clean Git history, meaningful commits, and unit tests (6+ test files).
 - [x] **Video**: App walkthrough and code explanation.
+### 5. Screenshots
+| Login | Dashboard |
+| :---: | :---: |
+| <img src="./screenshots/01_login_screen.png" width="300" /> | <img src="./screenshots/03_dashboard_screen.png" width="300" /> |
+
+| Team | Tasks |
+| :---: | :---: |
+| <img src="./screenshots/04_team_screen.png" width="300" /> | <img src="./screenshots/05_tasks_screen.png" width="300" /> |
+
+---
 
 ## 🏃‍♂️ Quick Start
 
