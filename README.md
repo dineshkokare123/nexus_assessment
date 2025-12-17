@@ -19,6 +19,9 @@ Each folder contains its own `README.md` with detailed setup and running instruc
 
 ### 4. Video Demo
 [![Watch the 7-Minute Walkthrough](https://cdn.loom.com/sessions/thumbnails/4f33567a52ef415ab62bb35ec481d4f7-with-play.gif)](https://www.loom.com/share/4f33567a52ef415ab62bb35ec481d4f7)
+
+**Watch Video:** [https://www.loom.com/share/4f33567a52ef415ab62bb35ec481d4f7](https://www.loom.com/share/4f33567a52ef415ab62bb35ec481d4f7)
+
 *   📖 **[Step-by-Step SOP Guide](./APP_WALKTHROUGH.md)**
 
 ---
