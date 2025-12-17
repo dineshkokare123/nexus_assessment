@@ -5,9 +5,23 @@ import { Platform } from 'react-native';
 export default function AppLayout() {
     return (
         <Tabs screenOptions={{
-            tabBarActiveTintColor: '#007AFF',
-            headerShown: true,
-            tabBarStyle: Platform.OS === 'ios' ? { height: 88, paddingTop: 8 } : { height: 60, paddingBottom: 8 },
+            tabBarActiveTintColor: '#3b5998',
+            tabBarInactiveTintColor: '#9da3b4',
+            headerShown: false,
+            tabBarStyle: {
+                backgroundColor: '#ffffff',
+                borderTopWidth: 0,
+                elevation: 0,
+                shadowOpacity: 0.1,
+                shadowRadius: 20,
+                height: Platform.OS === 'ios' ? 88 : 60,
+                paddingBottom: Platform.OS === 'ios' ? 28 : 8,
+                paddingTop: 8,
+            },
+            tabBarLabelStyle: {
+                fontSize: 12,
+                fontWeight: '600',
+            }
         }}>
             <Tabs.Screen
                 name="home"

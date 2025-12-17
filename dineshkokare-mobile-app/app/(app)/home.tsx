@@ -1,9 +1,11 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { useAuthStore } from '../../store/authStore';
 import { useRouter, useFocusEffect } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useState, useEffect, useCallback } from 'react';
 import { api } from '../../services/api';
+import { LinearGradient } from 'expo-linear-gradient';
+import { StatusBar } from 'expo-status-bar';
 
 export default function HomeScreen() {
     const { user, logout } = useAuthStore();
@@ -15,6 +17,7 @@ export default function HomeScreen() {
         active_members: 0
     });
     const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
 
     const checkAuthAndFetchStats = async () => {
         if (!user) {
@@ -31,6 +34,7 @@ export default function HomeScreen() {
             console.log("Failed to fetch stats", error);
         } finally {
             setLoading(false);
+            setRefreshing(false);
         }
     };
 
@@ -38,129 +42,235 @@ export default function HomeScreen() {
         checkAuthAndFetchStats();
     }, [user]);
 
-    // Re-fetch when screen comes into focus
     useFocusEffect(
         useCallback(() => {
             checkAuthAndFetchStats();
         }, [])
     );
 
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        checkAuthAndFetchStats();
+    }, []);
+
     const handleLogout = () => {
         logout();
         router.replace('/(auth)/login');
     };
 
-    if (loading) {
-        return <View style={styles.center}><ActivityIndicator /></View>;
-    }
+    const StatCard = ({ label, value, icon, color }: any) => (
+        <View style={[styles.statCard, { borderLeftColor: color, borderLeftWidth: 4 }]}>
+            <View>
+                <Text style={styles.statNumber}>{value}</Text>
+                <Text style={styles.statLabel}>{label}</Text>
+            </View>
+            <View style={[styles.iconBox, { backgroundColor: color + '20' }]}>
+                <Ionicons name={icon} size={24} color={color} />
+            </View>
+        </View>
+    );
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{ paddingBottom: 40 }}>
-            {/* Header */}
-            <View style={styles.header}>
-                <View>
-                    <Text style={styles.greeting}>Hello,</Text>
-                    <Text style={styles.username}>{user?.name}</Text>
-                    <Text style={styles.roleBadge}>{user?.role}</Text>
+        <View style={styles.container}>
+            <StatusBar style="light" />
+            <LinearGradient
+                colors={['#192f6a', '#3b5998', '#4c669f']}
+                style={styles.headerGradient}
+            >
+                <View style={styles.headerContent}>
+                    <View>
+                        <Text style={styles.greeting}>Welcome back,</Text>
+                        <Text style={styles.username}>{user?.name}</Text>
+                        <View style={styles.roleContainer}>
+                            <Ionicons name="shield-checkmark-outline" size={14} color="#fff" />
+                            <Text style={styles.roleText}>{user?.role}</Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
+                        <Ionicons name="log-out-outline" size={24} color="#fff" />
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity onPress={handleLogout} style={styles.logoutBtn}>
-                    <Ionicons name="log-out-outline" size={24} color="#333" />
-                </TouchableOpacity>
-            </View>
+            </LinearGradient>
 
-            {/* Quick Stats */}
-            <View style={styles.statsContainer}>
-                <View style={styles.statCard}>
-                    <Text style={styles.statNumber}>{stats.total_members}</Text>
-                    <Text style={styles.statLabel}>Team Members</Text>
+            <ScrollView
+                style={styles.content}
+                contentContainerStyle={{ paddingBottom: 40 }}
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#3b5998" />}
+            >
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>Overview</Text>
                 </View>
-                <View style={styles.statCard}>
-                    <Text style={styles.statNumber}>0</Text>
-                    <Text style={styles.statLabel}>Pending Tasks</Text>
+
+                <View style={styles.statsGrid}>
+                    <StatCard
+                        label="Total Team"
+                        value={stats.total_members}
+                        icon="people"
+                        color="#4c669f"
+                    />
+                    <StatCard
+                        label="Pending Invites"
+                        value={stats.pending_invites}
+                        icon="mail-unread"
+                        color="#f0ad4e"
+                    />
+                    <StatCard
+                        label="Active Members"
+                        value={stats.active_members || 0}
+                        icon="pulse"
+                        color="#5cb85c"
+                    />
+                    <StatCard
+                        label="Completion Rate"
+                        value={`${stats.completion_rate}%`}
+                        icon="checkmark-circle"
+                        color="#d9534f"
+                    />
                 </View>
-            </View>
-        </ScrollView>
+
+                <View style={styles.sectionHeader}>
+                    <Text style={styles.sectionTitle}>Quick Actions</Text>
+                </View>
+
+                <View style={styles.actionGrid}>
+                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/contacts')}>
+                        <View style={[styles.actionIcon, { backgroundColor: '#e3f2fd' }]}>
+                            <Ionicons name="person-add" size={24} color="#1976d2" />
+                        </View>
+                        <Text style={styles.actionText}>Invite Member</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/tasks/create')}>
+                        <View style={[styles.actionIcon, { backgroundColor: '#e8f5e9' }]}>
+                            <Ionicons name="create" size={24} color="#388e3c" />
+                        </View>
+                        <Text style={styles.actionText}>New Task</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.actionCard} onPress={() => router.push('/(app)/team')}>
+                        <View style={[styles.actionIcon, { backgroundColor: '#fff3e0' }]}>
+                            <Ionicons name="list" size={24} color="#f57c00" />
+                        </View>
+                        <Text style={styles.actionText}>View Team</Text>
+                    </TouchableOpacity>
+                </View>
+
+            </ScrollView>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
-        padding: 20,
+        backgroundColor: '#f5f7fa',
     },
-    center: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    headerGradient: {
+        paddingTop: 60,
+        paddingBottom: 30,
+        paddingHorizontal: 20,
+        borderBottomLeftRadius: 30,
+        borderBottomRightRadius: 30,
     },
-    header: {
+    headerContent: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 24,
     },
     greeting: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: '#1a1a1a',
+        fontSize: 16,
+        color: '#rgba(255,255,255,0.8)',
+        marginBottom: 4,
     },
     username: {
-        fontSize: 24,
+        fontSize: 26,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
+        letterSpacing: 0.5,
     },
-    roleBadge: {
-        fontSize: 14,
-        color: '#666',
-        backgroundColor: '#f0f0f0',
+    roleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        paddingHorizontal: 10,
+        paddingVertical: 4,
+        borderRadius: 12,
+        marginTop: 8,
         alignSelf: 'flex-start',
-        paddingHorizontal: 8,
-        paddingVertical: 2,
-        borderRadius: 4,
-        marginTop: 4,
-        textTransform: 'uppercase',
     },
-    logoutBtn: {
-        padding: 8,
-        backgroundColor: '#f5f5f5',
-        borderRadius: 20,
-    },
-    role: {
-        fontSize: 16,
-        color: '#666',
-        marginTop: 4,
+    roleText: {
+        color: '#fff',
+        fontWeight: '600',
+        fontSize: 12,
+        marginLeft: 4,
         textTransform: 'capitalize',
     },
-    profileBtn: {
-        padding: 4,
+    logoutBtn: {
+        backgroundColor: 'rgba(255,255,255,0.2)',
+        padding: 10,
+        borderRadius: 50,
+    },
+    content: {
+        flex: 1,
+        marginTop: -20,
+        paddingHorizontal: 20,
+    },
+    sectionHeader: {
+        marginTop: 25,
+        marginBottom: 15,
     },
     sectionTitle: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: '700',
-        color: '#333',
-        marginBottom: 16,
+        color: '#34495e',
     },
-    actionsGrid: {
-        flexDirection: 'row',
-        gap: 16,
-        marginBottom: 32,
+    statsGrid: {
+        gap: 12,
     },
-    card: {
-        flex: 1,
+    statCard: {
         backgroundColor: '#fff',
-        padding: 16,
         borderRadius: 16,
-        borderWidth: 1,
-        borderColor: '#eee',
+        padding: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.05,
-        shadowRadius: 8,
+        shadowRadius: 10,
+        elevation: 3,
+    },
+    statNumber: {
+        fontSize: 24,
+        fontWeight: '800',
+        color: '#2c3e50',
+    },
+    statLabel: {
+        fontSize: 14,
+        color: '#7f8c8d',
+        marginTop: 4,
+    },
+    iconBox: {
+        padding: 10,
+        borderRadius: 12,
+    },
+    actionGrid: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    actionCard: {
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        padding: 16,
+        alignItems: 'center',
+        width: '31%',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.03,
+        shadowRadius: 5,
         elevation: 2,
     },
-    iconContainer: {
+    actionIcon: {
         width: 48,
         height: 48,
         borderRadius: 24,
@@ -168,30 +278,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 12,
     },
-    cardTitle: {
-        fontSize: 14,
+    actionText: {
+        fontSize: 12,
         fontWeight: '600',
-        color: '#333',
-    },
-    statsContainer: {
-        marginTop: 10,
-    },
-    statCard: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor: '#f8f9fa',
-        borderRadius: 12,
-        marginBottom: 10,
-    },
-    statNumber: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        color: '#007AFF',
-    },
-    statLabel: {
-        fontSize: 16,
-        color: '#555',
+        color: '#2c3e50',
     }
 });
