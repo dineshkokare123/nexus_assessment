@@ -27,7 +27,7 @@ Each folder contains its own `README.md` with detailed setup and running instruc
 - [x] **Source Code**: Separate folders for Mobile and Backend.
 - [x] **Documentation**: Setup instructions, Env vars (`.env.example`), and Architecture doc.
 - [x] **Quality**: Clean Git history, meaningful commits, and unit tests (6+ test files).
-- [ ] **Video**: App walkthrough and code explanation.
+- [x] **Video**: App walkthrough and code explanation.
 
 ## 🏃‍♂️ Quick Start
 
