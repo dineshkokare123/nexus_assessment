@@ -18,7 +18,7 @@ Each folder contains its own `README.md` with detailed setup and running instruc
     *   Team Processes
 
 ### 4. Video Demo
-*   🎥 **[Watch the 7-Minute Walkthrough](Placeholder: PASTE_YOUR_VIDEO_LINK_HERE)**
+*   🎥 **[Watch the 7-Minute Walkthrough](https://www.loom.com/share/2dd653afba094063ac492d8ca70100e9)**
 
 ---
 
