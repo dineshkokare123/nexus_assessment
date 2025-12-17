@@ -7,15 +7,15 @@ This project consists of a mobile application built with React Native (Expo) and
 
 ```mermaid
 graph TD
-    User[Mobile User] -->|HTTPS/REST| API[Backend API (Express/Node.js)]
-    API -->|Read/Write| DB[(PostgreSQL Database)]
-    API -->|Auth| JWT[JWT Token Service]
+    User["Mobile User"] -->|HTTPS/REST| API["Backend API (Express/Node.js)"]
+    API -->|Read/Write| DB[("PostgreSQL Database")]
+    API -->|Auth| JWT["JWT Token Service"]
     
     subgraph Mobile App
-        UI[UI Components]
-        Store[State Management (Zustand)]
-        Nav[Navigation (Expo Router/React Navigation)]
-        Service[API Service Layer]
+        UI["UI Components"]
+        Store["State Management (Zustand)"]
+        Nav["Navigation (Expo Router/React Navigation)"]
+        Service["API Service Layer"]
         
         UI --> Store
         Store --> Service
