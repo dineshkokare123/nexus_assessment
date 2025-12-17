@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../store/authStore';
 import { Platform } from 'react-native';
 
-// Replace '192.168.1.2' with your computer's actual IP if it changes
+// Replace 'localhost' with your computer's IP if testing on real device
 const API_URL = 'http://localhost:3000/api';
 
 export const api = axios.create({

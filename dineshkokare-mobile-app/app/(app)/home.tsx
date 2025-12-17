@@ -7,9 +7,12 @@ import { api } from '../../services/api';
 import { LinearGradient } from 'expo-linear-gradient';
 import { StatusBar } from 'expo-status-bar';
 
+import { usePushNotifications } from '../../hooks/usePushNotifications';
+
 export default function HomeScreen() {
     const { user, logout } = useAuthStore();
     const router = useRouter();
+    usePushNotifications(); // Initialize push notifications
     const [stats, setStats] = useState({
         total_members: 0,
         pending_invites: 0,
